@@ -39,6 +39,7 @@ class AppSettings:
     show_log: bool = False
     show_advanced: bool = False
     ui_scale: float = 1.5             # fonts and sizes of the window
+    always_on_top: bool = False
     bridge: BridgeConfig = field(default_factory=BridgeConfig)
 
     @property
@@ -67,6 +68,7 @@ class AppSettings:
             s.show_log = u.getboolean("show_log", s.show_log)
             s.show_advanced = u.getboolean("show_advanced", s.show_advanced)
             s.ui_scale = min(4.0, max(0.5, u.getfloat("scale", s.ui_scale)))
+            s.always_on_top = u.getboolean("always_on_top", s.always_on_top)
         if cp.has_section("bridge"):
             b = cp["bridge"]
             kw = {}
@@ -96,7 +98,8 @@ class AppSettings:
         cp["can"] = {"interface": self.interface, "channel": self.channel, "bitrate": str(self.bitrate)}
         cp["log"] = {"dir": self.log_dir, "capture": "1" if self.capture else "0"}
         cp["ui"] = {"language": self.language, "show_log": "1" if self.show_log else "0",
-                    "show_advanced": "1" if self.show_advanced else "0", "scale": str(self.ui_scale)}
+                    "show_advanced": "1" if self.show_advanced else "0", "scale": str(self.ui_scale),
+                    "always_on_top": "1" if self.always_on_top else "0"}
         b = {}
         for f in fields(BridgeConfig):
             v = getattr(self.bridge, f.name)

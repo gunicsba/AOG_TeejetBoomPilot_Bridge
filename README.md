@@ -66,6 +66,7 @@ effect on the next Connect)
 | ISOBUS feedback | on | Sends PGN 0xF0 like an ISOBUS Task Controller with the Radion's **actual** sections. AOG paints coverage from what the Radion really sprays, and its ISOBUS section-control button switches BoomPilot on/off |
 | Language | system language | Dropdown filled from the `lang` folder (see Translations) |
 | Wireshark capture | off | Records `capture-*.pcapng` (CAN as SocketCAN + AOG UDP, opens in Wireshark) and `can-*.trc` (PCAN-View) in the logs folder. Can be switched on and off while connected |
+| Always on top | off | Keeps the bridge window above AgOpenGPS |
 | Show advanced / bench test options | off | Shows the bench-test switches: stop the 0x0A heartbeat (bench test 5), force master OFF (bench test 2), C0 address claim, Machine Selected Speed. Not needed in normal use |
 
 Fixed in the app: UDP ports 8888/9999, master follows the AOG job, feedback via 0xED + hello

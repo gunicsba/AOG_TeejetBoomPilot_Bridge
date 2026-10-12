@@ -120,6 +120,7 @@ class App:
         SCALE = self.settings.ui_scale
         scale_named_fonts()
         root.protocol("WM_DELETE_WINDOW", self.on_close)
+        root.attributes("-topmost", self.settings.always_on_top)
         style = ttk.Style(root)
         style.configure("Big.TButton", font=font(10, True), padding=(px(8), px(2)))
         style.configure("Hint.TLabel", foreground="#666")
@@ -290,6 +291,9 @@ class App:
         self.v_capture = tk.BooleanVar(value=s.capture)
         ttk.Checkbutton(gen, text=self.t("settings.capture"), variable=self.v_capture,
                         command=self.toggle_capture).grid(row=1, column=0, columnspan=2, sticky="w", **pad)
+        self.v_on_top = tk.BooleanVar(value=s.always_on_top)
+        ttk.Checkbutton(gen, text=self.t("settings.on_top"), variable=self.v_on_top,
+                        command=self.toggle_on_top).grid(row=2, column=0, columnspan=2, sticky="w", **pad)
 
         ttk.Label(sett, text=self.t("settings.reconnect_note"), style="Hint.TLabel",
                   wraplength=px(WRAP)).pack(anchor="w", pady=(px(3), 0))
@@ -446,6 +450,11 @@ class App:
     def toggle_force_off(self):
         if self.session:
             self.session.bridge.set_force_master_off(self.v_force_off.get())
+
+    def toggle_on_top(self):
+        self.settings.always_on_top = self.v_on_top.get()
+        self.root.attributes("-topmost", self.settings.always_on_top)
+        self._save()
 
     def toggle_capture(self):
         self._save()
