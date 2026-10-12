@@ -15,8 +15,11 @@ state is read back and reported to AgOpenGPS.
  +------------------+          +-------------------------+          +------------------+
 ```
 
+![The bridge running next to AgOpenGPS: all 7 sections confirmed by the Radion, a second AgIO on the Wi-Fi hotspot being ignored, and AOG's ISOBUS SC button on the right](docs/ui.png)
+
 The AOG side follows the proven **AOG_AGTronik_bridge** (Agromehanika) pattern. The protocol
-details and what is still unknown are in [FINDINGS.md](FINDINGS.md).
+details and what is still unknown are in [FINDINGS.md](FINDINGS.md). The CAN captures it is based
+on are in [traces/](traces/README.md).
 
 ## Running
 
@@ -101,28 +104,27 @@ texts. Edited files are kept, and new lines in them fall back to the built-in te
 
 ## Wiring
 
-The Radion connects to the console through an **8-pin Souriau** connector. The bridge needs only
-**+12 V, GND, CAN_H and CAN_L** from it. Section and speed information travel over CAN, not on
-discrete wires. Identify the pins on your harness with a meter (the console side of the original
-Matrix cable is easiest) before connecting, and record them here:
+The Radion connects to the console through an **8-pin** circular connector (exact type / part
+number: **TODO**). The bridge needs only **+12 V, GND, CAN_H and CAN_L** from it. Section and
+speed information travel over CAN, not on discrete wires.
 
-| Souriau pin | Signal |
-|---|---|
-| ? | +12 V |
-| ? | GND |
-| ? | CAN_H |
-| ? | CAN_L |
-| others | not used by the bridge |
+<img src="docs/radion8140-connector.jpg" alt="Radion 8140 console connector with test wires plugged in" width="320">
 
-PEAK PCAN-USB (DB9, CiA 303-1):
+Pinout of the Radion's console connector (pins are lettered on the connector face):
 
-| DB9 pin | Signal |
-|---|---|
-| 7 | CAN_H |
-| 2 | CAN_L |
-| 3 | CAN_GND (connect to Radion GND) |
+| Pin | Signal | To PCAN-USB DB9 |
+|---|---|---|
+| C | +12 V | (supply, not to the PCAN) |
+| D | GND | pin 3 (CAN_GND) |
+| E | CAN_H | pin 7 |
+| F | CAN_L | pin 2 |
+| others | not used by the bridge | |
 
-Power the Radion from a 12 V supply. The PCAN-USB does not supply the bus.
+Before connecting the PCAN, check with a meter: C–D is the 12 V supply (never connect C to the
+PCAN), and E–F measures about 60 Ω with everything unpowered and both terminators fitted.
+
+The PEAK PCAN-USB uses the standard DB9 CAN pinout (CiA 303-1). Power the Radion from a 12 V
+supply; the PCAN-USB does not supply the bus.
 
 **Termination:** the bus needs **120 Ω at each end**: one at the Radion end and one at the
 PCAN end (a DB9 terminator or a resistor between pins 2 and 7). With everything unpowered,

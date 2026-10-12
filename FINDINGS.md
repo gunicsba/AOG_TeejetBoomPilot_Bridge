@@ -17,6 +17,7 @@
 | Probe `01` → Radion `01 00 02 61` | `teejet got gnss.trc` |
 | Console address claim SA C0 NAME `00 00 60 16 07 80 00 2F` | `Matrix PRO570gs boot.trc` |
 | b2–b4 always `00`, b5 always `80`, byte 6 always `FF` | all |
+| `0A` bytes 1–2 are a speed in mm/s: in the GNSS demo they equal the MSS speed (5358–5364 mm/s). **But** with GNSS at 134.4 km/h (MSS 37330 mm/s) `0A` stays at 5364 mm/s and its odometer (bytes 3–6) also advances at 19.3 km/h, so `0A` carries another (simulated, filtered or capped?) speed than MSS. The bridge sends all-FF by default, so this does not affect it | `…gnss demo.trc`, `134_4km_h.trc`, `radion section toggle.trc` |
 
 **Hypothesis (unverified):** the Radion's frame `00 SS b2 b3 …` mirrors the console's
 `00 S1-8 S9-16 S17-24`, so b2/b3 might be sections 9–16/17–24 rather than rate/volume. A Radion
