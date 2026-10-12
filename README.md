@@ -104,30 +104,31 @@ texts. Edited files are kept, and new lines in them fall back to the built-in te
 
 ## Wiring
 
-The Radion connects to the console through an **8-pin** circular connector (exact type / part
-number: **TODO**). The bridge needs only **+12 V, GND, CAN_H and CAN_L** from it. Section and
-speed information travel over CAN, not on discrete wires.
+The Radion connects to the console through an **8-pin Souriau** connector (exact part number:
+**TODO**). The bridge needs only **+12 V, GND, CAN_H and CAN_L** from it. Section and speed
+information travel over CAN, not on discrete wires.
 
-<img src="docs/radion8140-connector.jpg" alt="Radion 8140 console connector with test wires plugged in" width="320">
+<img src="docs/radion8140-connector.jpg" alt="Radion 8140 Souriau 8-pin console connector with test wires plugged in" width="320">
 
-Pinout of the Radion's console connector (pins are lettered on the connector face):
+Pinout of the Radion's **Souriau 8-pin** console connector (pins are lettered on the connector face):
 
-| Pin | Signal | To PCAN-USB DB9 |
-|---|---|---|
-| C | +12 V | (supply, not to the PCAN) |
-| D | GND | pin 3 (CAN_GND) |
-| E | CAN_H | pin 7 |
-| F | CAN_L | pin 2 |
-| others | not used by the bridge | |
+| Souriau pin | Signal |
+|---|---|
+| C | +12 V |
+| D | GND |
+| E | CAN_H |
+| F | CAN_L |
+| others | not used by the bridge |
 
-Before connecting the PCAN, check with a meter: C–D is the 12 V supply (never connect C to the
-PCAN), and E–F measures about 60 Ω with everything unpowered and both terminators fitted.
+Before connecting, check with a meter: C–D is the 12 V supply, and E–F measures about 60 Ω with
+everything unpowered and both terminators fitted.
 
-The PEAK PCAN-USB uses the standard DB9 CAN pinout (CiA 303-1). Power the Radion from a 12 V
-supply; the PCAN-USB does not supply the bus.
+**PC side:** the PEAK PCAN-USB adapter itself has a DB9 plug (standard CiA 303-1 pinout). Wire
+Souriau E (CAN_H) to DB9 pin 7, F (CAN_L) to pin 2 and D (GND) to pin 3. Pin C (+12 V) does
+not go to the PCAN-USB; the adapter does not power the bus, so the Radion needs its own 12 V supply.
 
 **Termination:** the bus needs **120 Ω at each end**: one at the Radion end and one at the
-PCAN end (a DB9 terminator or a resistor between pins 2 and 7). With everything unpowered,
+PCAN end (a terminator on the PCAN-USB's DB9, or a resistor between its pins 2 and 7). With everything unpowered,
 measure **≈ 60 Ω** between CAN_H and CAN_L. 120 Ω means one terminator is missing; ~40 Ω means
 there is one too many. Bus speed is 250 kbit/s with 29-bit IDs.
 
